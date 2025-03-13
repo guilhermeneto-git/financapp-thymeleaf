@@ -1,5 +1,7 @@
 package com.gneto.financapp.security;
 
+import org.springframework.boot.web.server.WebServerFactoryCustomizer;
+import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -18,13 +20,13 @@ public class FinancAppConfig {
 
     // To ignore authentication and authorization managers, thus allowing access for all of requests.
     // it's temporary.
-    @Bean
+    /*@Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring()
                 .requestMatchers(new AntPathRequestMatcher("/**"));
-    }
+    }*/
 
-    /*@Bean
+    @Bean
     public UserDetailsManager userDetailsManager(DataSource dataSource) {
         JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
 
@@ -37,27 +39,30 @@ public class FinancAppConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(configurer ->
-                configurer.requestMatchers(HttpMethod.GET, "/financapp/users").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/financapp/users/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/financapp/users").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/financapp/users").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/financapp/users/**").hasRole("ADMIN")
+                configurer.requestMatchers(HttpMethod.GET, "/users").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/users/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/users").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/users").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
 
-                        .requestMatchers(HttpMethod.GET, "/financapp/categories").hasRole("USER")
-                        .requestMatchers(HttpMethod.GET, "/financapp/categories/**").hasRole("USER")
-                        .requestMatchers(HttpMethod.POST, "/financapp/categories").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/financapp/categories").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/financapp/categories/**").hasRole("ADMIN")
-        );
+                        .requestMatchers("/categories/**").hasRole("ADMIN")
+        )
+                .formLogin(form ->
+                        form
+                                .loginPage("/login")
+                                .loginProcessingUrl("/authenticateTheUser")
+                                .permitAll()
+                ).logout(logout -> logout.permitAll())
+                .exceptionHandling(configurer -> configurer.accessDeniedPage("/access-denied"));
 
         // use HTTP Basic Authentication
         http.httpBasic(Customizer.withDefaults());
 
         // disable Cross Site Request Forgery (CSRF)
         // in general, not required for stateless REST APIs that use POST, PUT, DELETE and/or PATCH
-        http.csrf(crsf -> crsf.disable());
+//        http.csrf(crsf -> crsf.disable());
 
         return http.build();
-    }*/
+    }
 
 }

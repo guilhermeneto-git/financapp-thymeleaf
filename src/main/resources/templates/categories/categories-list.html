@@ -17,7 +17,7 @@
         <hr>
 
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <a th:href="@{/financapp/categories/insert}" class="btn btn-primary btn-sm" title="Insert a new category">
+            <a th:href="@{/categories/insert}" class="btn btn-primary btn-sm" title="Insert a new category">
                 <i class="bi bi-plus"></i>
             </a>
         </div>
@@ -34,12 +34,12 @@
                 <tr th:each="category: ${categories}">
                     <td th:text="${category.name}" class="w-80"></td>
                     <td class="w-20">
-                        <a th:href="@{/financapp/categories/edit(categoryId=${category.id})}"
+                        <a th:href="@{/categories/edit(categoryId=${category.id})}"
                            class="btn btn-info btn-sm"
                            title="Edit the category">
                             <i class="bi bi-pencil"></i>
                         </a>
-                        <a th:href="@{/financapp/categories/delete(categoryId=${category.id})}"
+                        <a th:href="@{/categories/delete(categoryId=${category.id})}"
                            class="btn btn-danger btn-sm"
                            title="Delete the category">
                             <i class="bi bi-trash"></i>

@@ -15,7 +15,7 @@
     <h3>Category Save</h3>
     <hr>
 
-    <form action="#" th:action="@{/financapp/categories/save}" th:object="${category}" method="post">
+    <form action="#" th:action="@{/categories/save}" th:object="${category}" method="post">
 
         <input type="hidden" th:field="${category.id}" />
 
@@ -26,7 +26,7 @@
 
         <button type="submit" class="btn btn-primary btn-sm col-1">Save</button>
 
-        <a th:href="@{/financapp/categories/list}" class="btn btn-outline-secondary btn-sm col-1">Cancel</a>
+        <a th:href="@{/categories/list}" class="btn btn-outline-secondary btn-sm col-1">Cancel</a>
 
     </form>
 

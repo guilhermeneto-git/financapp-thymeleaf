@@ -39,6 +39,11 @@ public class EntityRestExceptionHandler {
 
     @ExceptionHandler
     public String handleException(Model model, DataIntegrityViolationException exc) {
+        return handleException(model, exc, HttpStatus.BAD_REQUEST);
+    }
+
+    /*@ExceptionHandler
+    public String handleException(Model model, DataIntegrityViolationException exc) {
        Exception exception = exc;
 
         if (exc.getMostSpecificCause() instanceof SQLIntegrityConstraintViolationException) {
@@ -55,6 +60,6 @@ public class EntityRestExceptionHandler {
         }
 
         return handleException(model, exception, HttpStatus.BAD_REQUEST);
-    }
+    }*/
 
 }

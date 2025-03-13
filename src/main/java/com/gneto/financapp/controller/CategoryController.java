@@ -12,7 +12,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/financapp/categories")
+@RequestMapping("/categories")
 public class CategoryController {
 
     private final CategoryService categoryService;
@@ -26,6 +26,11 @@ public class CategoryController {
     @Autowired
     public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
+    }
+
+    @GetMapping
+    public String showCategories(Model model) {
+        return showCategoryList(model);
     }
 
     @GetMapping("/list")
@@ -50,7 +55,7 @@ public class CategoryController {
 
         categoryService.save(category);
 
-        return "redirect:/financapp/categories/list";
+        return "redirect:/categories/list";
     }
 
     @GetMapping("/edit")
@@ -64,7 +69,7 @@ public class CategoryController {
     public String delete(@RequestParam("categoryId") Integer id) {
         categoryService.deleteById(id);
 
-        return "redirect:/financapp/categories/list";
+        return "redirect:/categories/list";
     }
 
 }
