@@ -1,30 +1,18 @@
 package com.gneto.financapp.security;
 
-import org.springframework.boot.web.server.WebServerFactoryCustomizer;
-import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.sql.DataSource;
 
 @Configuration
 public class FinancAppConfig {
-
-    // To ignore authentication and authorization managers, thus allowing access for all of requests.
-    // it's temporary.
-    /*@Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring()
-                .requestMatchers(new AntPathRequestMatcher("/**"));
-    }*/
 
     @Bean
     public UserDetailsManager userDetailsManager(DataSource dataSource) {
@@ -46,6 +34,8 @@ public class FinancAppConfig {
                         .requestMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
 
                         .requestMatchers("/categories/**").hasRole("ADMIN")
+                        .requestMatchers("/accounts/**").hasRole("ADMIN")
+                        .requestMatchers("/accounts/**").hasRole("USER")
         )
                 .formLogin(form ->
                         form
