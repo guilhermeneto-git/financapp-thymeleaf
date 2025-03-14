@@ -2,8 +2,8 @@ CREATE DATABASE  IF NOT EXISTS `financapp`;
 USE `financapp`;
 
 -- Drop all of tables.
-DROP TABLE IF EXISTS `account`;
-DROP TABLE IF EXISTS `category`;
+DROP TABLE IF EXISTS `accounts`;
+DROP TABLE IF EXISTS `categories`;
 DROP TRIGGER IF EXISTS `trg_users_insert`;
 DROP TRIGGER IF EXISTS `trg_users_delete`;
 DROP TABLE IF EXISTS `roles`;
@@ -26,8 +26,8 @@ CREATE TABLE `users` (
 -- passwords values as 'financapp' for the users below
 INSERT INTO `users`
 VALUES
-('guineto', 'Guilherme Neto','guilherme.neto@financapp.com', '{bcrypt}$2a$10$GwlNZsV5mDTOK2gBqx7nLOHZ384cpaN19GR.8X.7bl/donqV0RomC', 1),
-('pehills', 'Peter Hills', 'peter.hills@financapp.com', '{bcrypt}$2a$10$GwlNZsV5mDTOK2gBqx7nLOHZ384cpaN19GR.8X.7bl/donqV0RomC', 1);
+('guilherme', 'Guilherme Neto','guilherme.neto@financapp.com', '{bcrypt}$2a$10$GwlNZsV5mDTOK2gBqx7nLOHZ384cpaN19GR.8X.7bl/donqV0RomC', 1),
+('peter', 'Peter Hills', 'peter.hills@financapp.com', '{bcrypt}$2a$10$GwlNZsV5mDTOK2gBqx7nLOHZ384cpaN19GR.8X.7bl/donqV0RomC', 1);
 
 -- Table structure for table `role`
 CREATE TABLE `roles` (
@@ -40,9 +40,9 @@ CREATE TABLE `roles` (
 -- Inserting data for table `roles`
 INSERT INTO `roles`
 VALUES
-('guineto','ROLE_ADMIN'),
-('guineto','ROLE_USER'),
-('pehills','ROLE_USER');
+('guilherme','ROLE_ADMIN'),
+('guilherme','ROLE_USER'),
+('peter','ROLE_USER');
 
 -- Trigger insert the user into the role as USER when the user was inserted into the user table.
 CREATE TRIGGER `trg_users_insert` AFTER INSERT
@@ -53,25 +53,27 @@ CREATE TRIGGER `trg_users_delete` BEFORE DELETE
 ON `users` FOR EACH ROW DELETE FROM `roles` WHERE user_id = OLD.user_id;
 
 -- Table structure for table `category`
-CREATE TABLE `category` (
+CREATE TABLE `categories` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(50) DEFAULT NULL,
-  `id_cat_father` int DEFAULT NULL,
   
-  PRIMARY KEY (`id`),
-  FOREIGN KEY (`id_cat_father`) REFERENCES category (`id`) 
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 
 -- Table structure for table `account`
-CREATE TABLE `account` (
+CREATE TABLE `accounts` (
 	`id` int NOT NULL AUTO_INCREMENT,
-    `id_user` int NOT NULL,
-    `id_category` int NOT NULL,
+    `user_id` varchar(50) NOT NULL,
+    `category_id` int NOT NULL,
     `type` varchar(50) NOT NULL,
     `name` varchar(80) NOT NULL,
     `description` varchar (200),
+    `total` decimal(9,2),
+    `due_date` date,
+    `payed` tinyint,
     
     PRIMARY KEY (`id`),
-    FOREIGN KEY (`id_category`) REFERENCES category (`id`)
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
+    FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;

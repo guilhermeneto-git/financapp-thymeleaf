@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Account Form</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+
+    <div class="container">
+
+        <br>
+        <h3>Account Form</h3>
+        <hr>
+
+        <form action="#" th:action="@{/accounts/save}" th:object="${account}" method="post">
+
+            <input type="hidden" th:field="${account.user.id}"></input>
+            <input type="hidden" th:field="${account.id}" />
+
+            <div>
+                <select th:field="${account.category.id}" class="form-control mb-4 w-25">
+                    <option th:each="category: ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+                </select>
+            </div>
+
+            <div>
+                <select th:field="${account.type}" class="form-control mb-4 w-25">
+                    <option th:each="type: ${types}" th:value="${type}" th:text="${type}"></option>
+                </select>
+            </div>
+
+            <div>
+                <input type="text" th:field="${account.name}" class="form-control mb-4 w-25" placeholder="Name" style="display: inline-block;" />
+                <span th:if="${#fields.hasErrors('name')}" th:errors="${account.name}" class="error" style="color:red; display: inline-block;"></span>
+            </div>
+
+            <div>
+                <textarea th:field="${account.description}" rows="5" cols="80"></textarea>
+            </div>
+
+            <div>
+                <input type="number" th:field="${account.total}" class="form-control mb-4 w-25" placeholder="Total" style="display: inline-block;" />
+                <span th:if="${#fields.hasErrors('total')}" th:errors="${account.total}" class="error" style="color:red; display: inline-block;"></span>
+            </div>
+
+            <div>
+                <input type="date" th:field="${account.dueDate}" class="form-control mb-4 w-25" placeholder="Due Date" style="display: inline-block;" />
+            </div>
+
+            <div>
+                <label>
+                    <input type="checkbox" th:field="${account.payed}" th:checked="${account.payed}"/> Payed
+                </label>
+            </div>
+
+            <div>
+                <button type="submit" class="btn btn-primary btn-sm col-1">Save</button>
+
+                <a th:href="@{/account/list}" class="btn btn-outline-secondary btn-sm col-1">Cancel</a>
+            </div>
+
+        </form>
+
+    </div>
+
+</body>
+</html>
