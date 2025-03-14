@@ -10,7 +10,12 @@ import com.gneto.financapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 @Controller
 @RequestMapping("/accounts")
@@ -27,6 +32,16 @@ public class AccountController {
         this.categoryService = categoryService;
     }
 
+    @GetMapping("/list")
+    public String list(Model model, @RequestParam("userid") String userId) {
+        User user = userService.findById(userId);
+        List<Account> accounts = accountService.findAllByUserAndByTypeAndByDueMonth(user, Type.EXPENSE, new Date(System.currentTimeMillis()));
+
+        model.addAttribute("accounts", accounts);
+
+        return "/accounts/accounts-list";
+    }
+
     @GetMapping("/insert")
     public String insert(Model model, @RequestParam("userid") String userId) {
         User user = userService.findById(userId);
@@ -40,10 +55,34 @@ public class AccountController {
     }
 
     @PostMapping("/save")
-    public String save(@ModelAttribute("account") Account account) {
+    public String save(@ModelAttribute("account") Account account, BindingResult bindingResult) {
         System.out.println(account);
 
-        return "redirect:/accounts/insert?userid="+account.getUser().getId();
+        if (bindingResult.hasErrors()) {
+            return "/accounts/account-form";
+        }
+
+        accountService.save(account);
+
+        return "redirect:/accounts/list?userid="+account.getUser().getId();
+    }
+
+    @GetMapping("/edit")
+    public String edit(@RequestParam("accountId") Integer id, Model model) {
+        model.addAttribute("account", accountService.findById(id));
+        model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("types", Type.values());
+
+        return "/accounts/account-form";
+    }
+
+    @GetMapping("/delete")
+    public String delete(@RequestParam("accountId") Integer id) {
+        System.out.println("step 1");
+
+        accountService.deleteById(id);
+
+        return "redirect:/accounts/list?userid=guilherme";
     }
 
 }

@@ -20,12 +20,19 @@ public class AccountServiceImpl implements AccountService{
         this.accountRepository = accountRepository;
     }
 
+    @Override
+    public Account findById(Integer id) {
+        return accountRepository.findById(id);
+    }
+
     public Account save(Account account) {
         return accountRepository.save(account);
     }
 
-    public void delete(Account account) {
-        accountRepository.delete(account);
+    public void deleteById(Integer id) {
+        System.out.println("step 2");
+
+        accountRepository.deleteById(id);
     }
 
     @Override

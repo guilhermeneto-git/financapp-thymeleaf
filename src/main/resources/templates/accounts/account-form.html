@@ -27,9 +27,7 @@
             </div>
 
             <div>
-                <select th:field="${account.type}" class="form-control mb-4 w-25">
-                    <option th:each="type: ${types}" th:value="${type}" th:text="${type}"></option>
-                </select>
+                Type: <input type="radio" th:field="${account.type}" th:each="type: ${types}" th:value="${type}" th:text="${#strings.toLowerCase(type)} " />
             </div>
 
             <div>
@@ -38,7 +36,7 @@
             </div>
 
             <div>
-                <textarea th:field="${account.description}" rows="5" cols="80"></textarea>
+                <textarea th:field="${account.description}" rows="5" cols="80" placeholder="Description"></textarea>
             </div>
 
             <div>
@@ -59,7 +57,7 @@
             <div>
                 <button type="submit" class="btn btn-primary btn-sm col-1">Save</button>
 
-                <a th:href="@{/account/list}" class="btn btn-outline-secondary btn-sm col-1">Cancel</a>
+                <a th:href="@{/accounts/list?userid=guilherme}" class="btn btn-outline-secondary btn-sm col-1">Cancel</a>
             </div>
 
         </form>

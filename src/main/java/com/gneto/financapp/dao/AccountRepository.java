@@ -10,9 +10,11 @@ import java.util.List;
 
 public interface AccountRepository  {
 
+    Account findById(Integer id);
+
     Account save(Account account);
 
-    void delete(Account account);
+    void deleteById(Integer id);
 
     List<Account> findAllByUserAndByTypeAndByDueMonth(User user, Type type, Date date);
 

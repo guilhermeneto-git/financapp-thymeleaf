@@ -9,6 +9,10 @@ import java.util.List;
 
 public interface AccountService {
 
+    Account findById(Integer id);
+    Account save(Account save);
+    void deleteById(Integer id);
+
     List<Account> findAllByUserAndByTypeAndByDueMonth(User user, Type type, Date date);
     List<Account> findAllByUserAndByTypeAndByDueDay(User user, Type type, Date date);
 
