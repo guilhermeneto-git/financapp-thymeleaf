@@ -1,8 +1,7 @@
 package com.gneto.financapp.controller;
 
 import com.gneto.financapp.entity.Account;
-import com.gneto.financapp.entity.Category;
-import com.gneto.financapp.entity.Type;
+import com.gneto.financapp.entity.AccountType;
 import com.gneto.financapp.entity.User;
 import com.gneto.financapp.service.AccountService;
 import com.gneto.financapp.service.CategoryService;
@@ -13,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -33,9 +31,9 @@ public class AccountController {
     }
 
     @GetMapping("/list")
-    public String list(Model model, @RequestParam("userid") String userId) {
+    public String list(@RequestParam("userid") String userId, Model model) {
         User user = userService.findById(userId);
-        List<Account> accounts = accountService.findAllByUserAndByTypeAndByDueMonth(user, Type.EXPENSE, new Date(System.currentTimeMillis()));
+        List<Account> accounts = accountService.findAllByUserAndByTypeAndByDueMonth(user, AccountType.EXPENSE, new Date(System.currentTimeMillis()));
 
         model.addAttribute("accounts", accounts);
 
@@ -49,7 +47,7 @@ public class AccountController {
 
         model.addAttribute("account", newAccount);
         model.addAttribute("categories", categoryService.findAll());
-        model.addAttribute("types", Type.values());
+        model.addAttribute("types", AccountType.values());
 
         return "/accounts/account-form";
     }
@@ -71,7 +69,7 @@ public class AccountController {
     public String edit(@RequestParam("accountId") Integer id, Model model) {
         model.addAttribute("account", accountService.findById(id));
         model.addAttribute("categories", categoryService.findAll());
-        model.addAttribute("types", Type.values());
+        model.addAttribute("types", AccountType.values());
 
         return "/accounts/account-form";
     }

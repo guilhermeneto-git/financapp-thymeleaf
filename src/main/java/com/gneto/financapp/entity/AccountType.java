@@ -1,6 +1,6 @@
 package com.gneto.financapp.entity;
 
-public enum Type {
+public enum AccountType {
 
     INCOME, EXPENSE
 

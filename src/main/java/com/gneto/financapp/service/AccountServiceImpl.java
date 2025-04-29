@@ -2,7 +2,7 @@ package com.gneto.financapp.service;
 
 import com.gneto.financapp.dao.AccountRepository;
 import com.gneto.financapp.entity.Account;
-import com.gneto.financapp.entity.Type;
+import com.gneto.financapp.entity.AccountType;
 import com.gneto.financapp.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,12 +36,12 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
-    public List<Account> findAllByUserAndByTypeAndByDueMonth(User user, Type type, Date date) {
+    public List<Account> findAllByUserAndByTypeAndByDueMonth(User user, AccountType type, Date date) {
         return accountRepository.findAllByUserAndByTypeAndByDueMonth(user, type, date);
     }
 
     @Override
-    public List<Account> findAllByUserAndByTypeAndByDueDay(User user, Type type, Date date) {
+    public List<Account> findAllByUserAndByTypeAndByDueDay(User user, AccountType type, Date date) {
         return accountRepository.findAllByUserAndByTypeAndByDueDay(user, type, date);
     }
 

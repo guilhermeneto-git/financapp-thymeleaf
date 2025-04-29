@@ -27,9 +27,14 @@
             </div>
 
             <div>
-                Type: <input type="radio" th:field="${account.type}" th:each="type: ${types}" th:value="${type}" th:text="${#strings.toLowerCase(type)} " />
+                Type:
+                <th:block th:each="type: ${types}">
+                    <input type="radio" th:field="${account.type}" th:value="${type}">
+                        <span th:text="${#strings.capitalize(#strings.toLowerCase(type))}"/>
+                    </input>
+                </th:block>
             </div>
-
+            <br>
             <div>
                 <input type="text" th:field="${account.name}" class="form-control mb-4 w-25" placeholder="Name" style="display: inline-block;" />
                 <span th:if="${#fields.hasErrors('name')}" th:errors="${account.name}" class="error" style="color:red; display: inline-block;"></span>

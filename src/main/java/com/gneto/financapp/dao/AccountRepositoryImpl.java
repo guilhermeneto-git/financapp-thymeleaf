@@ -1,7 +1,7 @@
 package com.gneto.financapp.dao;
 
 import com.gneto.financapp.entity.Account;
-import com.gneto.financapp.entity.Type;
+import com.gneto.financapp.entity.AccountType;
 import com.gneto.financapp.entity.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -44,7 +44,7 @@ public class AccountRepositoryImpl implements AccountRepository {
     }
 
     @Override
-    public List<Account> findAllByUserAndByTypeAndByDueMonth(User user, Type type, Date dueDate) {
+    public List<Account> findAllByUserAndByTypeAndByDueMonth(User user, AccountType type, Date dueDate) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(dueDate);
         calendar.set(Calendar.DAY_OF_MONTH, 1);
@@ -69,7 +69,7 @@ public class AccountRepositoryImpl implements AccountRepository {
 
 
     @Override
-    public List<Account> findAllByUserAndByTypeAndByDueDay(User user, Type type, Date dueDate) {
+    public List<Account> findAllByUserAndByTypeAndByDueDay(User user, AccountType type, Date dueDate) {
         TypedQuery<Account> query = entityManager.createQuery(
                 "select ac from Account ac where ac.user = :user and ac.type = :type and ac.dueDate = :dueDate",
                 Account.class

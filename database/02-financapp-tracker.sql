@@ -60,6 +60,14 @@ CREATE TABLE `categories` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
+INSERT INTO `categories`
+(name)
+VALUES
+('Food'),
+('Car'),
+('Salary'),
+('House');
+
 
 -- Table structure for table `account`
 CREATE TABLE `accounts` (
@@ -77,3 +85,14 @@ CREATE TABLE `accounts` (
     FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
     FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+INSERT INTO `accounts`
+(user_id, category_id, type, name, description, total, due_date, payed)
+VALUES
+('guilherme', 1, 'EXPENSE', 'Restaurant', null, 85.3, '2025-03-17', 1),
+('guilherme', 2, 'EXPENSE', 'Fuel', null, 20.54, '2025-03-18', 1),
+('guilherme', 1, 'EXPENSE', 'Super Market', null, 130, '2025-03-18', 1),
+('guilherme', 2, 'EXPENSE', 'Manutance', null, 875, '2025-03-30', 0),
+('guilherme', 3, 'INCOME', 'BayresDev', null, 3000, '2025-05-03', 0),
+('guilherme', 4, 'EXPENSE', 'Chair', null, 150, '2025-03-15', 0),
+('peter', 1, 'EXPENSE', 'Chocolatte', null, 5.99, '2025-05-16', 1);
