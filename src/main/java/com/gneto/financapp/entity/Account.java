@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.text.DateFormat;
+import java.time.Duration;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -19,12 +22,13 @@ public class Account {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "type")
-    private Type type;
+    private AccountType type;
 
     @Column(name = "name")
     private String name;
@@ -36,11 +40,14 @@ public class Account {
     private Double total;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Temporal(TemporalType.DATE)
     @Column(name = "due_date")
     private Date dueDate;
 
     @Column(name = "payed")
     private Boolean payed;
+
+    private transient Boolean expired;
 
     @Autowired
     public Account() {
@@ -80,11 +87,11 @@ public class Account {
         this.category = category;
     }
 
-    public Type getType() {
+    public AccountType getType() {
         return type;
     }
 
-    public void setType(Type type) {
+    public void setType(AccountType type) {
         this.type = type;
     }
 
@@ -126,6 +133,16 @@ public class Account {
 
     public void setPayed(Boolean payed) {
         this.payed = payed;
+    }
+
+    public Boolean getExpired() {
+        setExpired(!payed && dueDate.before(new Date(System.currentTimeMillis())));
+
+        return expired;
+    }
+
+    public void setExpired(Boolean expired) {
+        this.expired = expired;
     }
 
     @Override

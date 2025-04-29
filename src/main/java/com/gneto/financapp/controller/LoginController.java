@@ -17,4 +17,9 @@ public class LoginController {
         return "/authorization/access-denied";
     }
 
+//    @GetMapping("logout")
+//    public String logout() {
+//        return "redirect/login?logout";
+//    }
+
 }
